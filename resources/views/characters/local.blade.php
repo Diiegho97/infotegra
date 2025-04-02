@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="container">
-    <h2>Personajes Guardados</h2>
-    <table class="table">
+    <h2>Personajes Guardados en la BD</h2>
+    <table class="table table-striped table-hover" id="charactersTable">
         <thead>
             <tr>
                 <th>ID</th>
@@ -27,6 +27,10 @@
             @endforeach
         </tbody>
     </table>
+    <!-- Controles de paginación -->
+    <div class="d-flex justify-content-center">
+        {{ $characters->links() }}
+    </div>
     <a href="../characters/api" class="btn btn-sm btn-secondary">Volver</a>
 </div>
 @endsection

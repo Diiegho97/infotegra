@@ -30,31 +30,43 @@ class CharacterController extends Controller
     }
     public function storeApiData()
     {
-        $response = Http::get('https://rickandmortyapi.com/api/character');
-
-        if ($response->successful()) {
-            $characters = collect($response->json()['results'])->take(100);
-
-            foreach ($characters as $character) {
-                Character::updateOrCreate(
-                    ['id' => $character['id']],
-                    [
-                        'name' => $character['name'],
-                        'status' => $character['status'],
-                        'species' => $character['species'],
-                        'type' => $character['type'] ?? '',
-                        'gender' => $character['gender'],
-                        'origin_name' => $character['origin']['name'],
-                        'origin_url' => $character['origin']['url'],
-                        'image' => $character['image']
-                    ]
-                );
+        $url = 'https://rickandmortyapi.com/api/character';
+        $pagesToFetch = 5; // Puedes ajustar este valor según el número de páginas que quieras procesar
+        $currentPage = 0;
+    
+        while ($url && $currentPage < $pagesToFetch) {
+            $response = Http::get($url);
+    
+            if ($response->successful()) {
+                $data = $response->json();
+                $characters = collect($data['results']);
+    
+                foreach ($characters as $character) {
+                    Character::updateOrCreate(
+                        ['id' => $character['id']],
+                        [
+                            'name' => $character['name'],
+                            'status' => $character['status'],
+                            'species' => $character['species'],
+                            'type' => $character['type'] ?? '',
+                            'gender' => $character['gender'],
+                            'origin_name' => $character['origin']['name'],
+                            'origin_url' => $character['origin']['url'],
+                            'image' => $character['image']
+                        ]
+                    );
+                }
+    
+                $url = $data['info']['next']; // Actualiza la URL para la siguiente página
+                $currentPage++;
+            } else {
+                session()->flash('error', 'Error al obtener datos de la API');
+                return redirect()->back();
             }
-
-            return redirect()->route('characters.local')->with('success', 'Datos almacenados correctamente');
         }
-
-        return redirect()->back()->with('error', 'Error al almacenar datos');
+    
+        session()->flash('success', 'Todos los datos se han almacenado correctamente');
+        return redirect()->route('characters.local');
     }
 
     public function indexLocal()

@@ -14,7 +14,7 @@ use App\Http\Controllers\CharacterController;
 |
 */
 
-// Route::get('/', function () {return view('characters/local');});
+Route::get('/', [CharacterController::class, 'fetchApiData'])->name('home');
 
 Route::get('/characters/api', [CharacterController::class, 'fetchApiData'])->name('characters.api');
 Route::get('/characters/store', [CharacterController::class, 'storeApiData'])->name('characters.store');

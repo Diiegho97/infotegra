@@ -12,6 +12,7 @@
     },
     "dependencies": {
         "datatables.net": "^2.2.2",
-        "datatables.net-bs5": "^2.2.2"
+        "datatables.net-bs5": "^2.2.2",
+        "sweetalert2": "^11.17.2"
     }
 }
