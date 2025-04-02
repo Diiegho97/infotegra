@@ -17,10 +17,10 @@ return new class extends Migration
             $table->string('status');
             $table->string('species');
             $table->string('type')->nullable();
-            $table->string('gender');
-            $table->string('origin_name');
+            $table->string('gender')->nullable();
+            $table->string('origin_name')->nullable();
             $table->string('origin_url')->nullable();
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

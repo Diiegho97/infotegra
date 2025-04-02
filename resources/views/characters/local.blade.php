@@ -21,11 +21,12 @@
                 <td>{{ $character['status'] }}</td>
                 <td>{{ $character['species'] }}</td>
                 <td>
-                    <a href="{{ route('characters.edit', $character['id']) }}" class="btn btn-primary">Editar</a>
+                    <a href="{{ route('characters.edit', $character['id']) }}" class="btn btn-sm btn-primary">Editar</a>
                 </td>
             </tr>
             @endforeach
         </tbody>
     </table>
+    <a href="../characters/api" class="btn btn-sm btn-secondary">Volver</a>
 </div>
 @endsection
